@@ -7,17 +7,17 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [Header("Player Controller")]
-    public float moveSpeed;
-    public float jumpForce;
+    public float moveSpeed;             // 
+    public float jumpForce;             // 점프 파워
     public LayerMask groundLayerMask;   // 땅 레이어 마스크
     private Vector2 curMovementInput;   // 현재 입력된 이동 방향
     private Rigidbody rb;   // 리지드바디 컴포넌트
 
     [Header("Look")]
     public Transform cameraContainer;
-    public float curCamXRot;    // 현재 카메라 x축 회전값
+    private float curCamXRot;    // 현재 카메라 x축 회전값
     public float lookSensitivity;   // 카메라 민감도
-    public Vector2 mouseDelta;  // 마우스 이동량
+    private Vector2 mouseDelta;  // 마우스 이동량
     public float maxXLook;  // 최대 시야각
     public float minXLook;  // 최소 시야각
 
@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
     {
         curCamXRot += mouseDelta.y * lookSensitivity; // 마우스 y축 이동량에 민감도를 곱해 x축 회전값에 더함
         curCamXRot = Mathf.Clamp(curCamXRot, minXLook, maxXLook); // x축 회전값을 최대 최소 시야각으로 제한
-        cameraContainer.localEulerAngles = new Vector3(-curCamXRot, 0, 0); // 카메라 컨테이너의 로컬 x축 회전값을 적용
+        cameraContainer.localEulerAngles = new Vector3(-curCamXRot, 0, 0); // Rotation : + 아래로, - 위로 올라감
         // eulerAngles : 오일러 각도로 회전값을 나타내는 변수
         transform.eulerAngles += new Vector3(0, mouseDelta.x * lookSensitivity, 0); // 플레이어 캐릭터의 y축 회전값을 마우스 x축 이동량에 민감도를 곱해 더함
     }
@@ -88,14 +88,13 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Started && IsGroind())
+        if (context.phase == InputActionPhase.Started  && IsGround())
         {
-            // ForceMode.Impulse : 순간적인 힘을 가함
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            rb.AddForce(Vector2.up * jumpForce, ForceMode.Impulse);
         }
     }
 
-    bool IsGroind()
+    bool IsGround()
     {
         #region
         ///	첫 번째 Ray: 전방으로 0.2 단위, 위로 0.01 단위 이동.
@@ -103,14 +102,14 @@ public class PlayerController : MonoBehaviour
         ///	세 번째 Ray: 오른쪽으로 0.2 단위, 위로 0.01 단위 이동.
         ///	네 번째 Ray: 왼쪽으로 0.2 단위, 위로 0.01 단위 이동.
         # endregion 
-        Ray[] ray = new Ray[4];
+        Ray[] ray = new Ray[4]
         {
             // Vector3.down : 아래 방향으로 레이를 쏨 
-            new Ray(transform.position + (transform.forward * 0.2f) + (transform.up * 0.01f), Vector3.down);    // 전방
-            new Ray(transform.position + (-transform.forward * 0.2f) + (transform.up * 0.01f), Vector3.down);  // 뒤
-            new Ray(transform.position + (transform.right * 0.2f) + (transform.up * 0.01f), Vector3.down);    // 오른쪽
-            new Ray(transform.position + (-transform.right * 0.2f) + (transform.up * 0.01f), Vector3.down);  // 왼쪽
-        }
+            new Ray(transform.position + (transform.forward * 0.2f) + (transform.up * 0.01f), Vector3.down),   // 전방
+            new Ray(transform.position + (-transform.forward * 0.2f) + (transform.up * 0.01f), Vector3.down),  // 뒤
+            new Ray(transform.position + (transform.right * 0.2f) + (transform.up * 0.01f), Vector3.down),    // 오른쪽
+            new Ray(transform.position + (-transform.right * 0.2f) + (transform.up * 0.01f), Vector3.down)  // 왼쪽
+        };
 
         for (int i = 0; i < ray.Length; i++)
         {
