@@ -108,6 +108,7 @@ public class PlayerController : MonoBehaviour
         Ray[] ray = new Ray[4]
         {
             // Vector3.down : 아래 방향으로 레이를 쏨 
+            // 생성 위치 및 방향
             new Ray(transform.position + (transform.forward * 0.2f) + (transform.up * 0.01f), Vector3.down),   // 전방
             new Ray(transform.position + (-transform.forward * 0.2f) + (transform.up * 0.01f), Vector3.down),  // 뒤
             new Ray(transform.position + (transform.right * 0.2f) + (transform.up * 0.01f), Vector3.down),    // 오른쪽
