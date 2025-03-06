@@ -38,6 +38,6 @@ public class Condition : MonoBehaviour
     public void Subtract(float value)
     {
         // 값 감소, 단 최소 값을 0 이하로 떨어지지 않도록 제한
-        curValue = Mathf.Max(curValue - value, 0);
+        curValue = Mathf.Max(curValue - value, 0.0f);
     }
 }
