@@ -3,7 +3,7 @@ using UnityEngine;
 public enum ItemType
 {
     Resouce,        // 자원
-    Equipablc,      // 장비
+    Equipable,      // 장비
     consumable,     // 소비
 }
 
@@ -30,7 +30,7 @@ public class ItemData : ScriptableObject
 
     [Header("Setting")]
     public bool canStack;
-    public int MaxStackAmount;
+    public int maxStackAmount;
 
     [Header("Consumable")]
     public ItemDataConsumable[] consumbles;

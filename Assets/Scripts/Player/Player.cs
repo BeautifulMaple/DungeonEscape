@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
 {
     public PlayerController controller;     // 플레이어 컨트롤러
     public PlayerCondition condition;       // 플레이어 상태
+    public Transform dropPosition;          // 떨굴 위치
 
     public ItemData itemData;
     public Action addItem;

@@ -58,8 +58,7 @@ public class PlayerController : MonoBehaviour
             CameraLook();
         }
         // 레이선 그리기
-        //Debug.DrawRay(transform.position + (transform.forward * 0.2f) + (transform.up * 0.01f), Vector3.down * 0.5f, Color.red);
-
+        Debug.DrawRay(transform.position + (transform.forward * 0.2f) + (transform.up * 0.01f), Vector3.down * 0.5f, Color.red);
     }
     void CameraLook()
     {
