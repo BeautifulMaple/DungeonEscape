@@ -656,14 +656,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  jumpForce: 0
+  jumpForce: 80
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 55
   cameraContainer: {fileID: 197340953}
   lookSensitivity: 0.2
-  maxXLook: -65
-  minXLook: 65
+  maxXLook: 65
+  minXLook: -65
   canLook: 1
 --- !u!114 &1344653378
 MonoBehaviour:

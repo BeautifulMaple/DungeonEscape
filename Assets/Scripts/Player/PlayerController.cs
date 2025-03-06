@@ -57,6 +57,9 @@ public class PlayerController : MonoBehaviour
         {
             CameraLook();
         }
+        // 레이선 그리기
+        //Debug.DrawRay(transform.position + (transform.forward * 0.2f) + (transform.up * 0.01f), Vector3.down * 0.5f, Color.red);
+
     }
     void CameraLook()
     {
@@ -114,7 +117,7 @@ public class PlayerController : MonoBehaviour
         for (int i = 0; i < ray.Length; i++)
         {
             // Physics.Raycast : 레이캐스트를 쏨
-            if (Physics.Raycast(ray[i], 0.1f, groundLayerMask))
+            if (Physics.Raycast(ray[i], 0.5f, groundLayerMask))
             {
                 return true;
             }
