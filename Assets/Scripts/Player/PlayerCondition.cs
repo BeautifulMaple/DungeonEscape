@@ -1,0 +1,50 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+public class PlayerCondition : MonoBehaviour
+{
+    public UICondition uICondition; // UI에서 상태 정보를 관리하는 객체
+
+    // UICondition에서 체력과 스태미너 상태를 가져옴
+    Condition health { get { return uICondition.health; } }
+    Condition stamina { get { return uICondition.Stamina; } }
+
+    public event Action OnTakeDamaged;  // 데미지를 받았을 때 발생하는 이벤트
+
+    void Update()
+    {
+        // 스태미너가 시간에 따라 자연 회복되도록 설정
+        stamina.Add(stamina.passiverValue * Time.deltaTime);
+    }
+
+    public void Heal(float amount)
+    {
+        // 체력을 회복
+        health.Add(amount);
+    }
+
+    private void Die()
+    {
+        // 플레이어 사망 처리 (현재는 로그 출력)
+        Debug.Log($"Die");
+    }
+    public void TakeDamage(float damage)
+    {
+        // 데미지를 받으면 체력을 감소
+        health.Subtract(damage);
+        // 데미지를 받았다는 이벤트 발생
+        OnTakeDamaged?.Invoke();
+    }
+    public bool UseStamina(float amount)
+    {
+        // 스태미너가 부족하면 사용 불가 처리
+        if (stamina.curValue - amount < 0f)
+        {
+            return false;
+        }
+        // 스태미너 감소
+        stamina.Subtract(amount);
+        return true;
+    }
+}

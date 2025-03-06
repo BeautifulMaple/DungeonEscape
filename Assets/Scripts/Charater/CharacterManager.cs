@@ -2,24 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharaterManager : MonoBehaviour
+public class CharacterManager : MonoBehaviour
 {
 
-    private static CharaterManager _instance;
-    public static CharaterManager Instance
+    private static CharacterManager _instance;
+    public static CharacterManager Instance
     {
         get
         {
             if (_instance == null)
             {
-                _instance = new GameObject("CharaterManager").AddComponent<CharaterManager>();
+                _instance = new GameObject("CharacterManager").AddComponent<CharacterManager>();
             }
             return _instance;
         }
     }
     // 플레이어 캐릭터
     private Player _player;
-    public Player player
+    public Player Player
     {
         get { return _player; }
         set { _player = value; }
