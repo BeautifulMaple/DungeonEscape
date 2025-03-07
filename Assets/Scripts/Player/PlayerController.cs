@@ -8,18 +8,25 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Player Controller")]
     public float moveSpeed;             // 
-    public float jumpForce;             // Á¡ÇÁ ÆÄ¿ö
-    public LayerMask groundLayerMask;   // ¶¥ ·¹ÀÌ¾î ¸¶½ºÅ©
-    private Vector2 curMovementInput;   // ÇöÀç ÀÔ·ÂµÈ ÀÌµ¿ ¹æÇâ
-    private Rigidbody rb;   // ¸®Áöµå¹Ùµğ ÄÄÆ÷³ÍÆ®
+    public float runSpeedMultiplier;
+    public float staminaRun;
+    public float jumpForce;             // ì í”„ íŒŒì›Œ
+    public float staminaJump;
+    public LayerMask groundLayerMask;   // ë•… ë ˆì´ì–´ ë§ˆìŠ¤í¬
+    private Vector2 curMovementInput;   // í˜„ì¬ ì…ë ¥ëœ ì´ë™ ë°©í–¥
+    private Rigidbody rb;   // ë¦¬ì§€ë“œë°”ë”” ì»´í¬ë„ŒíŠ¸
+    private float originMoveSpeed;
+    private float originJumpForce;
+
+    private PlayerCondition playerCondition;
 
     [Header("Look")]
     public Transform cameraContainer;
-    private float curCamXRot;    // ÇöÀç Ä«¸Ş¶ó xÃà È¸Àü°ª
-    public float lookSensitivity;   // Ä«¸Ş¶ó ¹Î°¨µµ
-    private Vector2 mouseDelta;  // ¸¶¿ì½º ÀÌµ¿·®
-    public float maxXLook;  // ÃÖ´ë ½Ã¾ß°¢
-    public float minXLook;  // ÃÖ¼Ò ½Ã¾ß°¢
+    private float curCamXRot;    // í˜„ì¬ ì¹´ë©”ë¼ xì¶• íšŒì „ê°’
+    public float lookSensitivity;   // ì¹´ë©”ë¼ ë¯¼ê°ë„
+    private Vector2 mouseDelta;  // ë§ˆìš°ìŠ¤ ì´ë™ëŸ‰
+    public float maxXLook;  // ìµœëŒ€ ì‹œì•¼ê°
+    public float minXLook;  // ìµœì†Œ ì‹œì•¼ê°
 
     public bool canLook = true;
     public Action Inventory;
@@ -28,27 +35,30 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        originJumpForce = jumpForce;
+        originMoveSpeed = moveSpeed;
+        playerCondition = GetComponent<PlayerCondition>();
     }
 
     private void Start()
     {
-        // ¸¶¿ì½º Ä¿¼­ ¼û±â±â
+        // ë§ˆìš°ìŠ¤ ì»¤ì„œ ìˆ¨ê¸°ê¸°
         Cursor.lockState = CursorLockMode.Locked;
     }
 
-    private void FixedUpdate()  // ¹°¸® ¿¬»ê ¾÷µ¥ÀÌÆ® 
+    private void FixedUpdate()  // ë¬¼ë¦¬ ì—°ì‚° ì—…ë°ì´íŠ¸ 
     {
-        Move(); // ÀÌµ¿
+        Move(); // ì´ë™
     }
 
     private void Move()
     {
-        // ÇöÀç ÀÔ·ÂÀÇ y °ªÀº z Ãà(forward, ¾ÕµÚ)¿¡ °öÇÑ´Ù.
-        // ÇöÀç ÀÔ·ÂÀÇ x °ªÀº x Ãà(right, ÁÂ¿ì)¿¡ °öÇÑ´Ù
+        // í˜„ì¬ ì…ë ¥ì˜ y ê°’ì€ z ì¶•(forward, ì•ë’¤)ì— ê³±í•œë‹¤.
+        // í˜„ì¬ ì…ë ¥ì˜ x ê°’ì€ x ì¶•(right, ì¢Œìš°)ì— ê³±í•œë‹¤
         Vector3 dir = transform.forward * curMovementInput.y + transform.right * curMovementInput.x;
-        dir *= moveSpeed;   // ÀÌµ¿ ¹æÇâ¿¡ ÀÌµ¿ ¼Óµµ¸¦ °öÇÔ
-        dir.y = rb.velocity.y;  // ¸®Áöµå¹ÙµğÀÇ yÃà ¼Óµµ¸¦ ±×´ë·Î À¯Áö
-        rb.velocity = dir; // ¸®Áöµå¹Ùµğ¿¡ ¹æÇâÀ» Àû¿ë
+        dir *= moveSpeed;   // ì´ë™ ë°©í–¥ì— ì´ë™ ì†ë„ë¥¼ ê³±í•¨
+        dir.y = rb.velocity.y;  // ë¦¬ì§€ë“œë°”ë””ì˜ yì¶• ì†ë„ë¥¼ ê·¸ëŒ€ë¡œ ìœ ì§€
+        rb.velocity = dir; // ë¦¬ì§€ë“œë°”ë””ì— ë°©í–¥ì„ ì ìš©
     }
 
     private void LateUpdate()
@@ -57,21 +67,21 @@ public class PlayerController : MonoBehaviour
         {
             CameraLook();
         }
-        // ·¹ÀÌ¼± ±×¸®±â
+        // ë ˆì´ì„  ê·¸ë¦¬ê¸°
         Debug.DrawRay(transform.position + (transform.forward * 0.2f) + (transform.up * 0.01f), Vector3.down * 0.5f, Color.red);
     }
     void CameraLook()
     {
-        curCamXRot += mouseDelta.y * lookSensitivity; // ¸¶¿ì½º yÃà ÀÌµ¿·®¿¡ ¹Î°¨µµ¸¦ °öÇØ xÃà È¸Àü°ª¿¡ ´õÇÔ
-        curCamXRot = Mathf.Clamp(curCamXRot, minXLook, maxXLook); // xÃà È¸Àü°ªÀ» ÃÖ´ë ÃÖ¼Ò ½Ã¾ß°¢À¸·Î Á¦ÇÑ
-        cameraContainer.localEulerAngles = new Vector3(-curCamXRot, 0, 0); // Rotation : + ¾Æ·¡·Î, - À§·Î ¿Ã¶ó°¨
-        // eulerAngles : ¿ÀÀÏ·¯ °¢µµ·Î È¸Àü°ªÀ» ³ªÅ¸³»´Â º¯¼ö
-        transform.eulerAngles += new Vector3(0, mouseDelta.x * lookSensitivity, 0); // ÇÃ·¹ÀÌ¾î Ä³¸¯ÅÍÀÇ yÃà È¸Àü°ªÀ» ¸¶¿ì½º xÃà ÀÌµ¿·®¿¡ ¹Î°¨µµ¸¦ °öÇØ ´õÇÔ
+        curCamXRot += mouseDelta.y * lookSensitivity; // ë§ˆìš°ìŠ¤ yì¶• ì´ë™ëŸ‰ì— ë¯¼ê°ë„ë¥¼ ê³±í•´ xì¶• íšŒì „ê°’ì— ë”í•¨
+        curCamXRot = Mathf.Clamp(curCamXRot, minXLook, maxXLook); // xì¶• íšŒì „ê°’ì„ ìµœëŒ€ ìµœì†Œ ì‹œì•¼ê°ìœ¼ë¡œ ì œí•œ
+        cameraContainer.localEulerAngles = new Vector3(-curCamXRot, 0, 0); // Rotation : + ì•„ë˜ë¡œ, - ìœ„ë¡œ ì˜¬ë¼ê°
+        // eulerAngles : ì˜¤ì¼ëŸ¬ ê°ë„ë¡œ íšŒì „ê°’ì„ ë‚˜íƒ€ë‚´ëŠ” ë³€ìˆ˜
+        transform.eulerAngles += new Vector3(0, mouseDelta.x * lookSensitivity, 0); // í”Œë ˆì´ì–´ ìºë¦­í„°ì˜ yì¶• íšŒì „ê°’ì„ ë§ˆìš°ìŠ¤ xì¶• ì´ë™ëŸ‰ì— ë¯¼ê°ë„ë¥¼ ê³±í•´ ë”í•¨
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        // phase : ÀÔ·Â »óÅÂ | Performed : ´­¸² Canceled : ¶¼¾îÁü
+        // phase : ì…ë ¥ ìƒíƒœ | Performed : ëˆŒë¦¼ Canceled : ë–¼ì–´ì§
         if (context.phase == InputActionPhase.Performed)
         {
             curMovementInput = context.ReadValue<Vector2>();
@@ -82,9 +92,38 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void OnRun(InputAction.CallbackContext context)
+    {
+        if(context.phase == InputActionPhase.Performed)
+        {
+            if (playerCondition.UseStamina(staminaRun))
+            {
+                moveSpeed *= runSpeedMultiplier;
+                StartCoroutine(RunStaminaDrain());
+            }
+        }
+        else if (context.phase == InputActionPhase.Canceled)
+        {
+            moveSpeed = originMoveSpeed;
+        }
+    }
+    private IEnumerator RunStaminaDrain()
+    {
+        while (moveSpeed > originMoveSpeed)
+        {
+            if (!playerCondition.UseStamina(staminaRun * Time.deltaTime))
+            {
+                moveSpeed = originMoveSpeed;
+                break;
+            }
+            yield return null;
+        }
+    }
+
+
     public void OnLook(InputAction.CallbackContext context)
     {
-        // ReadValue<Vector2>() : ÀÔ·Â°ªÀ» º¤ÅÍ2·Î ¹İÈ¯
+        // ReadValue<Vector2>() : ì…ë ¥ê°’ì„ ë²¡í„°2ë¡œ ë°˜í™˜
         mouseDelta = context.ReadValue<Vector2>();
     }
 
@@ -92,31 +131,35 @@ public class PlayerController : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Started  && IsGround())
         {
-            rb.AddForce(Vector2.up * jumpForce, ForceMode.Impulse);
+            if (playerCondition.UseStamina(staminaJump))
+            {
+                rb.AddForce(Vector2.up * jumpForce, ForceMode.Impulse);
+
+            }
         }
     }
 
     bool IsGround()
     {
         #region
-        ///	Ã¹ ¹øÂ° Ray: Àü¹æÀ¸·Î 0.2 ´ÜÀ§, À§·Î 0.01 ´ÜÀ§ ÀÌµ¿.
-        ///	µÎ ¹øÂ° Ray: µÚ·Î 0.2 ´ÜÀ§, À§·Î 0.01 ´ÜÀ§ ÀÌµ¿.
-        ///	¼¼ ¹øÂ° Ray: ¿À¸¥ÂÊÀ¸·Î 0.2 ´ÜÀ§, À§·Î 0.01 ´ÜÀ§ ÀÌµ¿.
-        ///	³× ¹øÂ° Ray: ¿ŞÂÊÀ¸·Î 0.2 ´ÜÀ§, À§·Î 0.01 ´ÜÀ§ ÀÌµ¿.
+        ///	ì²« ë²ˆì§¸ Ray: ì „ë°©ìœ¼ë¡œ 0.2 ë‹¨ìœ„, ìœ„ë¡œ 0.01 ë‹¨ìœ„ ì´ë™.
+        ///	ë‘ ë²ˆì§¸ Ray: ë’¤ë¡œ 0.2 ë‹¨ìœ„, ìœ„ë¡œ 0.01 ë‹¨ìœ„ ì´ë™.
+        ///	ì„¸ ë²ˆì§¸ Ray: ì˜¤ë¥¸ìª½ìœ¼ë¡œ 0.2 ë‹¨ìœ„, ìœ„ë¡œ 0.01 ë‹¨ìœ„ ì´ë™.
+        ///	ë„¤ ë²ˆì§¸ Ray: ì™¼ìª½ìœ¼ë¡œ 0.2 ë‹¨ìœ„, ìœ„ë¡œ 0.01 ë‹¨ìœ„ ì´ë™.
         # endregion 
         Ray[] ray = new Ray[4]
         {
-            // Vector3.down : ¾Æ·¡ ¹æÇâÀ¸·Î ·¹ÀÌ¸¦ ½ô 
-            // »ı¼º À§Ä¡ ¹× ¹æÇâ
-            new Ray(transform.position + (transform.forward * 0.2f) + (transform.up * 0.01f), Vector3.down),   // Àü¹æ
-            new Ray(transform.position + (-transform.forward * 0.2f) + (transform.up * 0.01f), Vector3.down),  // µÚ
-            new Ray(transform.position + (transform.right * 0.2f) + (transform.up * 0.01f), Vector3.down),    // ¿À¸¥ÂÊ
-            new Ray(transform.position + (-transform.right * 0.2f) + (transform.up * 0.01f), Vector3.down)  // ¿ŞÂÊ
+            // Vector3.down : ì•„ë˜ ë°©í–¥ìœ¼ë¡œ ë ˆì´ë¥¼ ì¨ 
+            // ìƒì„± ìœ„ì¹˜ ë° ë°©í–¥
+            new Ray(transform.position + (transform.forward * 0.2f) + (transform.up * 0.01f), Vector3.down),   // ì „ë°©
+            new Ray(transform.position + (-transform.forward * 0.2f) + (transform.up * 0.01f), Vector3.down),  // ë’¤
+            new Ray(transform.position + (transform.right * 0.2f) + (transform.up * 0.01f), Vector3.down),    // ì˜¤ë¥¸ìª½
+            new Ray(transform.position + (-transform.right * 0.2f) + (transform.up * 0.01f), Vector3.down)  // ì™¼ìª½
         };
 
         for (int i = 0; i < ray.Length; i++)
         {
-            // Physics.Raycast : ·¹ÀÌÄ³½ºÆ®¸¦ ½ô
+            // Physics.Raycast : ë ˆì´ìºìŠ¤íŠ¸ë¥¼ ì¨
             if (Physics.Raycast(ray[i], 0.5f, groundLayerMask))
             {
                 return true;
@@ -124,21 +167,38 @@ public class PlayerController : MonoBehaviour
         }
         return false;
     }
+    // ì•„ì´í…œìœ¼ë¡œ ì í”„ë ¥ ì¦ê°€
+    public void AddJumpForce(float amount, float duration)
+    {
+        jumpForce += amount;
+        StartCoroutine(AfterJumpForce(duration));
+    }
+    private IEnumerator AfterJumpForce(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        jumpForce = originJumpForce;
+    }
     
     public void OnInventory(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Performed)
         {
             Inventory?.Invoke();
-            ToggleCursor(); //  ÀÎº¥Åä¸®¸¦ ¿­¸é Ä¿¼­¸¦ º¸ÀÌ°Ô ÇÔ
+            ToggleCursor(); //  ì¸ë²¤í† ë¦¬ë¥¼ ì—´ë©´ ì»¤ì„œë¥¼ ë³´ì´ê²Œ í•¨
         }
     }
 
     void ToggleCursor()
     {
-        bool toggle = Cursor.lockState == CursorLockMode.Locked;    // Ä¿¼­°¡ º¸ÀÌ´ÂÁö ¿©ºÎ¸¦ È®ÀÎ
+        bool toggle = Cursor.lockState == CursorLockMode.Locked;    // ì»¤ì„œê°€ ë³´ì´ëŠ”ì§€ ì—¬ë¶€ë¥¼ í™•ì¸
         Cursor.lockState = toggle ? CursorLockMode.None : CursorLockMode.Locked;    //
-        canLook = !toggle;  // Ä¿¼­°¡ º¸ÀÌ¸é Ä«¸Ş¶ó È¸ÀüÀ» ¸·À½
+        canLook = !toggle;  // ì»¤ì„œê°€ ë³´ì´ë©´ ì¹´ë©”ë¼ íšŒì „ì„ ë§‰ìŒ
     }
+
+    public void OnToggleCamera()
+    {
+
+    }
+
 }
 

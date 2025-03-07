@@ -18,7 +18,11 @@ MonoBehaviour:
     \uC18D\uC774 \uC4F0\uB9B4 \uC218 \uC788\uC73C\uB2C8 \uC8FC\uC758\uD558\uC790"
   type: 2
   icon: {fileID: 21300000, guid: 5845e7344c333cd4d8c783cb01e18e3a, type: 3}
-  dropObject: {fileID: 6627553015284852418, guid: dff0735c675241c4995afbefbcbc69b0, type: 3}
+  dropPrefab: {fileID: 6627553015284852418, guid: dff0735c675241c4995afbefbcbc69b0, type: 3}
   canStack: 1
-  MaxStackAmount: 64
-  consumbles: []
+  maxStackAmount: 64
+  consumables:
+  - type: 0
+    value: 20
+  - type: 1
+    value: 10

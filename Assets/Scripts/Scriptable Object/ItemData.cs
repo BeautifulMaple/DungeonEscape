@@ -4,13 +4,14 @@ public enum ItemType
 {
     Resouce,        // 자원
     Equipable,      // 장비
-    consumable,     // 소비
+    Consumable,     // 소비
 }
 
 public enum ConsumableType
 {
     Health,
-    hunger, 
+    Hunger,
+    JumpBoost,  // 점프력 증가
 }
 [System.Serializable]
 public class ItemDataConsumable
@@ -26,13 +27,13 @@ public class ItemData : ScriptableObject
     public string description;  // 설명
     public ItemType type;
     public Sprite icon;
-    public GameObject dropObject;
+    public GameObject dropPrefab;
 
     [Header("Setting")]
     public bool canStack;
     public int maxStackAmount;
 
     [Header("Consumable")]
-    public ItemDataConsumable[] consumbles;
+    public ItemDataConsumable[] consumables;
 
 }

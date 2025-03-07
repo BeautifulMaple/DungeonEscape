@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bdb0f382122e05499d8ed59f690153c, type: 3}
+  m_Name: Item_Carrot
+  m_EditorClassIdentifier: 
+  disPlayName: "\uB2F9\uADFC"
+  description: "\uB2F9\uADFC\uC744 \uBA39\uC73C\uBA74 \uADFC\uB825\uC774 \uD65C\uBC1C\uD574\uC9C0\uBA74\uC11C
+    \uC810\uD504\uB825\uC774 \uC0C1\uC2B9\uD569\uB2C8\uB2E4! \uD639\uC2DC \uD1A0\uB07C\uCC98\uB7FC
+    \uB354 \uB192\uC774 \uB6F8 \uC218 \uC788\uC744\uC9C0\uB3C4...?"
+  type: 2
+  icon: {fileID: 21300000, guid: b53822ec75d701e49b9947d1d09fd81e, type: 3}
+  dropPrefab: {fileID: 7880395832764916705, guid: 44869f06e6a746546857c115487a46e2, type: 3}
+  canStack: 1
+  maxStackAmount: 64
+  consumables:
+  - type: 2
+    value: 100

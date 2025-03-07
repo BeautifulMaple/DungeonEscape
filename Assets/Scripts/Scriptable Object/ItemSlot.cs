@@ -23,14 +23,26 @@ public class ItemSlot : MonoBehaviour
     void Awake()
     {
         outline = GetComponent<Outline>();
+        button.onClick.AddListener(OnClickButton);
     }
 
+    private void OnEnable()
+    {
+        outline.enabled = enabled;
+    }
     public void Set()
     {
         // 아이템이 없다면
         icon.gameObject.SetActive(true);
         icon.sprite = item.icon;    // 아이콘 설정
-        quantityText.text = quantity > 1 ? quantity.ToString() : string.Empty;  // 수량이 1보다 크다면 수량을 표시
+        if (item.canStack)
+        {
+            quantityText.text = quantity > 0 ? quantity.ToString() : string.Empty;  // 수량이 1보다 크다면 수량을 표시
+        }
+        else
+        {
+            quantityText.text = string.Empty;
+        }
 
         if (outline != null)
         {
