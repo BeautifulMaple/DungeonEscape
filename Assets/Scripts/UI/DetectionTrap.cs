@@ -7,7 +7,7 @@ public class DetectionTrap : MonoBehaviour
     public float detectionRange = 5f; // 감지 범위
     public LayerMask warningLayer; // 위험 레이어
     public GameObject warningMessage; // 경고 메시지 오브젝트
-    public Transform cameraContainer; // 카메라 컨테이너
+    public Transform trapTransform; // 카메라 컨테이너
 
     private void Update()
     {
@@ -19,9 +19,10 @@ public class DetectionTrap : MonoBehaviour
     {
         RaycastHit hit;
 
-        // CameraContainer의 위치와 방향을 사용
-        Vector3 rayOrigin = cameraContainer.position;
-        Vector3 rayDirection = cameraContainer.forward;
+        // trapTransform 위치와 방향을 사용
+        Vector3 rayOrigin = trapTransform.position;
+        rayOrigin.y += 1f; // Raycast의 Y 값을 2만큼 올림
+        Vector3 rayDirection = trapTransform.forward;
 
         // 레이캐스트를 수행하고 결과를 hit에 저장
         if (Physics.Raycast(rayOrigin, rayDirection, out hit, detectionRange, warningLayer))
