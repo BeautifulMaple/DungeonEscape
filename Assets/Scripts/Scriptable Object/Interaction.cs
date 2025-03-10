@@ -1,6 +1,4 @@
-using System;
 using TMPro;
-using Unity.Properties;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -18,6 +16,7 @@ public class Interaction : MonoBehaviour
 
     public TextMeshProUGUI promptText; // 상호작용 안내 문구 UI
     private Camera cam;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,10 +28,9 @@ public class Interaction : MonoBehaviour
     {
         if (Time.time - lastCheckTime > checkRate)
         {
-            // 
             lastCheckTime = Time.time;
 
-            // 화면 중앙에서 래이캐스트 쏴서 탐색하기
+            // 화면 중앙에서 레이캐스트 쏴서 탐색하기
             Ray ray = cam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
             RaycastHit hit;
 
@@ -71,11 +69,6 @@ public class Interaction : MonoBehaviour
             curInteractable = null;
             promptText.gameObject.SetActive(false);
         }
-    }
-    public interface IInteractable
-    {
-        string GetInteractPrompt();
-        void OnInteract();
     }
 }
 

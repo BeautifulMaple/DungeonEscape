@@ -5,6 +5,7 @@ public enum ItemType
     Resouce,        // 자원
     Equipable,      // 장비
     Consumable,     // 소비
+    interactable,   // 상호작용
 }
 
 public enum ConsumableType
