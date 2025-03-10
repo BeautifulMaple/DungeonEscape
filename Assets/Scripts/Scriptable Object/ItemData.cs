@@ -2,16 +2,16 @@ using UnityEngine;
 
 public enum ItemType
 {
-    Resouce,        // ÀÚ¿ø
-    Equipable,      // Àåºñ
-    Consumable,     // ¼Òºñ
+    Resouce,        // ìì›
+    Equipable,      // ì¥ë¹„
+    Consumable,     // ì†Œë¹„
 }
 
 public enum ConsumableType
 {
     Health,
     Hunger,
-    JumpBoost,  // Á¡ÇÁ·Â Áõ°¡
+    JumpBoost,  // ì í”„ë ¥ ì¦ê°€
 }
 [System.Serializable]
 public class ItemDataConsumable
@@ -23,8 +23,8 @@ public class ItemDataConsumable
 public class ItemData : ScriptableObject
 {
     [Header("Item Info")]
-    public string disPlayName;  // º¸¿©Áö´Â ÀÌ¸§
-    public string description;  // ¼³¸í
+    public string disPlayName;  // ë³´ì—¬ì§€ëŠ” ì´ë¦„
+    public string description;  // ì„¤ëª…
     public ItemType type;
     public Sprite icon;
     public GameObject dropPrefab;
@@ -35,5 +35,8 @@ public class ItemData : ScriptableObject
 
     [Header("Consumable")]
     public ItemDataConsumable[] consumables;
+
+    [Header("Eqip")]
+    public GameObject equipPrefab;
 
 }

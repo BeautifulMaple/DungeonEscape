@@ -4,48 +4,50 @@ using UnityEngine.UI;
 
 public class UIIventory : MonoBehaviour
 {
-    public ItemSlot[] slots;            // ÀÎº¥Åä¸® ½½·Ô ¹è¿­
-    public GameObject inventoryWindow;  // ÀÎº¥Åä¸® Ã¢
-    public Transform slotParent;        // ½½·Ô ºÎ¸ğ ¿ÀºêÁ§Æ®
-    public Transform dropPosition;      // ¾ÆÀÌÅÛÀ» ¹ö¸± À§Ä¡
+    public ItemSlot[] slots;            // ì¸ë²¤í† ë¦¬ ìŠ¬ë¡¯ ë°°ì—´
+    public GameObject inventoryWindow;  // ì¸ë²¤í† ë¦¬ ì°½
+    public Transform slotParent;        // ìŠ¬ë¡¯ ë¶€ëª¨ ì˜¤ë¸Œì íŠ¸
+    public Transform dropPosition;      // ì•„ì´í…œì„ ë²„ë¦´ ìœ„ì¹˜
 
     [Header("Select item")]
-    public TextMeshProUGUI selectedItemName;        // ¼±ÅÃµÈ ¾ÆÀÌÅÛÀÇ ÀÌ¸§À» Ç¥½ÃÇÒ UI ÅØ½ºÆ®
-    public TextMeshProUGUI selectedItemDescription; // ¼±ÅÃµÈ ¾ÆÀÌÅÛÀÇ ¼³¸íÀ» Ç¥½ÃÇÒ UI ÅØ½ºÆ®
-    public TextMeshProUGUI selectedStatName;        // ¼±ÅÃµÈ ¾ÆÀÌÅÛÀÇ ½ºÅÈ ÀÌ¸§À» Ç¥½ÃÇÒ UI ÅØ½ºÆ®
-    public TextMeshProUGUI selectedStatValue;       // ¼±ÅÃµÈ ¾ÆÀÌÅÛÀÇ ½ºÅÈ °ªÀ» Ç¥½ÃÇÒ UI ÅØ½ºÆ®
+    public TextMeshProUGUI selectedItemName;        // ì„ íƒëœ ì•„ì´í…œì˜ ì´ë¦„ì„ í‘œì‹œí•  UI í…ìŠ¤íŠ¸
+    public TextMeshProUGUI selectedItemDescription; // ì„ íƒëœ ì•„ì´í…œì˜ ì„¤ëª…ì„ í‘œì‹œí•  UI í…ìŠ¤íŠ¸
+    public TextMeshProUGUI selectedStatName;        // ì„ íƒëœ ì•„ì´í…œì˜ ìŠ¤íƒ¯ ì´ë¦„ì„ í‘œì‹œí•  UI í…ìŠ¤íŠ¸
+    public TextMeshProUGUI selectedStatValue;       // ì„ íƒëœ ì•„ì´í…œì˜ ìŠ¤íƒ¯ ê°’ì„ í‘œì‹œí•  UI í…ìŠ¤íŠ¸
 
-    // ¾ÆÀÌÅÛ »ç¿ë, ÀåÂø, ÇØÁ¦, ¹ö¸®±â ¹öÆ°
-    public Button useButton;    // ¾ÆÀÌÅÛ »ç¿ë ¹öÆ°
-    public Button equipButton;  // ¾ÆÀÌÅÛ ÀåÂø ¹öÆ°
-    public Button unequipButton;// ¾ÆÀÌÅÛ ÇØÁ¦ ¹öÆ°
-    public Button dropButton;   // ¾ÆÀÌÅÛ ¹ö¸®±â ¹öÆ°
+    // ì•„ì´í…œ ì‚¬ìš©, ì¥ì°©, í•´ì œ, ë²„ë¦¬ê¸° ë²„íŠ¼
+    public Button useButton;    // ì•„ì´í…œ ì‚¬ìš© ë²„íŠ¼
+    public Button equipButton;  // ì•„ì´í…œ ì¥ì°© ë²„íŠ¼
+    public Button unequipButton;// ì•„ì´í…œ í•´ì œ ë²„íŠ¼
+    public Button dropButton;   // ì•„ì´í…œ ë²„ë¦¬ê¸° ë²„íŠ¼
 
-    private PlayerController playerController;   // ÇÃ·¹ÀÌ¾î ÄÁÆ®·Ñ·¯ ÂüÁ¶
-    private PlayerCondition playerCondition;     // ÇÃ·¹ÀÌ¾î »óÅÂ ÂüÁ¶
+    private PlayerController playerController;   // í”Œë ˆì´ì–´ ì»¨íŠ¸ë¡¤ëŸ¬ ì°¸ì¡°
+    private PlayerCondition playerCondition;     // í”Œë ˆì´ì–´ ìƒíƒœ ì°¸ì¡°
 
-    ItemData selectedItem;    // ¼±ÅÃÇÑ ¾ÆÀÌÅÛ µ¥ÀÌÅÍ
-    int selectedItemIndex = 0; // ¼±ÅÃÇÑ ¾ÆÀÌÅÛÀÇ ÀÎµ¦½º
-    int curEquipIndex;         // ÇöÀç ÀåÂøÇÑ ¾ÆÀÌÅÛÀÇ ÀÎµ¦½º
+    ItemData selectedItem;    // ì„ íƒí•œ ì•„ì´í…œ ë°ì´í„°
+    int selectedItemIndex = 0; // ì„ íƒí•œ ì•„ì´í…œì˜ ì¸ë±ìŠ¤
+    int curEquipIndex;         // í˜„ì¬ ì¥ì°©í•œ ì•„ì´í…œì˜ ì¸ë±ìŠ¤
 
     void Start()
     {
-        // ÇÃ·¹ÀÌ¾î »óÅÂ ¹× ÄÁÆ®·Ñ·¯ °¡Á®¿À±â
+        // í”Œë ˆì´ì–´ ìƒíƒœ ë° ì»¨íŠ¸ë¡¤ëŸ¬ ê°€ì ¸ì˜¤ê¸°
         playerCondition = CharacterManager.Instance.Player.condition;
         playerController = CharacterManager.Instance.Player.controller;
         dropPosition = CharacterManager.Instance.Player.dropPosition;
 
-        // ¾ÆÀÌÅÛ Ãß°¡ ÀÌº¥Æ® µî·Ï
+        // ì•„ì´í…œ ì¶”ê°€ ì´ë²¤íŠ¸ ë“±ë¡
         CharacterManager.Instance.Player.addItem += AddItem;
-        playerController.Inventory += Toggle; // ÀÎº¥Åä¸® Åä±Û ÀÌº¥Æ® µî·Ï
+        playerController.Inventory += Toggle; // ì¸ë²¤í† ë¦¬ í† ê¸€ ì´ë²¤íŠ¸ ë“±ë¡
 
-        // ¹öÆ° ÀÌº¥Æ® ¸®½º³Ê Ãß°¡
+        // ë²„íŠ¼ ì´ë²¤íŠ¸ ë¦¬ìŠ¤ë„ˆ ì¶”ê°€
         useButton.onClick.AddListener(OnUeseButton);
         dropButton.onClick.AddListener(OnDropButton);
+        equipButton.onClick.AddListener(OnEquipButton);
+        unequipButton.onClick.AddListener(OnUnEquipButton);
 
-        inventoryWindow.SetActive(false); // ½ÃÀÛ ½Ã ÀÎº¥Åä¸® Ã¢ ºñÈ°¼ºÈ­
+        inventoryWindow.SetActive(false); // ì‹œì‘ ì‹œ ì¸ë²¤í† ë¦¬ ì°½ ë¹„í™œì„±í™”
 
-        // ½½·Ô ¹è¿­ ÃÊ±âÈ­
+        // ìŠ¬ë¡¯ ë°°ì—´ ì´ˆê¸°í™”
         slots = new ItemSlot[slotParent.childCount];
         for (int i = 0; i < slots.Length; i++)
         {
@@ -54,10 +56,10 @@ public class UIIventory : MonoBehaviour
             slots[i].inventory = this;
         }
 
-        ClearSelctedItemWindow(); // ¼±ÅÃµÈ ¾ÆÀÌÅÛ Á¤º¸ ÃÊ±âÈ­
+        ClearSelctedItemWindow(); // ì„ íƒëœ ì•„ì´í…œ ì •ë³´ ì´ˆê¸°í™”
     }
 
-    // ¼±ÅÃµÈ ¾ÆÀÌÅÛ Á¤º¸ ÃÊ±âÈ­
+    // ì„ íƒëœ ì•„ì´í…œ ì •ë³´ ì´ˆê¸°í™”
     void ClearSelctedItemWindow()
     {
         selectedItemName.text = string.Empty;
@@ -71,19 +73,19 @@ public class UIIventory : MonoBehaviour
         dropButton.gameObject.SetActive(false);
     }
 
-    // ÀÎº¥Åä¸® Ã¢À» ¿©´İ±â
+    // ì¸ë²¤í† ë¦¬ ì°½ì„ ì—¬ë‹«ê¸°
     public void Toggle()
     {
         inventoryWindow.SetActive(!IsOpen());
     }
 
-    // ÀÎº¥Åä¸® Ã¢ÀÌ ¿­·Á ÀÖ´ÂÁö È®ÀÎ
+    // ì¸ë²¤í† ë¦¬ ì°½ì´ ì—´ë ¤ ìˆëŠ”ì§€ í™•ì¸
     public bool IsOpen()
     {
         return inventoryWindow.activeInHierarchy;
     }
 
-    // ¾ÆÀÌÅÛ ¼±ÅÃ
+    // ì•„ì´í…œ ì„ íƒ
     public void SelectItem(int index)
     {
         if (slots[index].item == null) return;
@@ -97,21 +99,21 @@ public class UIIventory : MonoBehaviour
         selectedStatName.text = string.Empty;
         selectedStatValue.text = string.Empty;
 
-        // ¼Òºñ ¾ÆÀÌÅÛÀÇ ´É·ÂÄ¡¸¦ UI¿¡ Ç¥½Ã
+        // ì†Œë¹„ ì•„ì´í…œì˜ ëŠ¥ë ¥ì¹˜ë¥¼ UIì— í‘œì‹œ
         for (int i = 0; i < selectedItem.consumables.Length; i++)
         {
             selectedStatName.text += selectedItem.consumables[i].type.ToString() + "\n";
             selectedStatValue.text += selectedItem.consumables[i].value.ToString() + "\n";
         }
 
-        // ¹öÆ° È°¼ºÈ­ ¿©ºÎ ¼³Á¤
+        // ë²„íŠ¼ í™œì„±í™” ì—¬ë¶€ ì„¤ì •
         useButton.gameObject.SetActive(selectedItem.type == ItemType.Consumable);
         equipButton.gameObject.SetActive(selectedItem.type == ItemType.Equipable && !slots[index].equipped);
         unequipButton.gameObject.SetActive(selectedItem.type == ItemType.Equipable && slots[index].equipped);
         dropButton.gameObject.SetActive(true);
     }
 
-    // ÁßÃ¸ °¡´ÉÇÑ ¾ÆÀÌÅÛ ½½·Ô Ã£±â
+    // ì¤‘ì²© ê°€ëŠ¥í•œ ì•„ì´í…œ ìŠ¬ë¡¯ ì°¾ê¸°
     ItemSlot GetItemStack(ItemData data)
     {
         for (int i = 0; i < slots.Length; i++)
@@ -124,7 +126,7 @@ public class UIIventory : MonoBehaviour
         return null;
     }
 
-    // ºó ½½·Ô Ã£±â
+    // ë¹ˆ ìŠ¬ë¡¯ ì°¾ê¸°
     ItemSlot GetEmptySlot()
     {
         for (int i = 0; i < slots.Length; i++)
@@ -137,12 +139,12 @@ public class UIIventory : MonoBehaviour
         return null;
     }
 
-    // ¾ÆÀÌÅÛ Ãß°¡
+    // ì•„ì´í…œ ì¶”ê°€
     void AddItem()
     {
         ItemData data = CharacterManager.Instance.Player.itemData;
 
-        if (data.canStack) // ÁßÃ¸ °¡´É ¿©ºÎ È®ÀÎ
+        if (data.canStack) // ì¤‘ì²© ê°€ëŠ¥ ì—¬ë¶€ í™•ì¸
         {
             ItemSlot slot = GetItemStack(data);
             if (slot != null)
@@ -154,7 +156,7 @@ public class UIIventory : MonoBehaviour
             }
         }
 
-        ItemSlot emptySlot = GetEmptySlot(); // ºó ½½·Ô È®ÀÎ
+        ItemSlot emptySlot = GetEmptySlot(); // ë¹ˆ ìŠ¬ë¡¯ í™•ì¸
 
         if (emptySlot != null)
         {
@@ -165,11 +167,11 @@ public class UIIventory : MonoBehaviour
             return;
         }
 
-        ThrowItem(data); // ºó ½½·ÔÀÌ ¾øÀ¸¸é ¹Ù´Ú¿¡ ¾ÆÀÌÅÛ µå¶ø
+        ThrowItem(data); // ë¹ˆ ìŠ¬ë¡¯ì´ ì—†ìœ¼ë©´ ë°”ë‹¥ì— ì•„ì´í…œ ë“œë
         CharacterManager.Instance.Player.itemData = null;
     }
 
-    // UI °»½Å
+    // UI ê°±ì‹ 
     void UpdataUI()
     {
         for (int i = 0; i < slots.Length; i++)
@@ -185,13 +187,13 @@ public class UIIventory : MonoBehaviour
         }
     }
 
-    // ¾ÆÀÌÅÛ ¹ö¸®±â (¹Ù´Ú¿¡ µå¶ø)
+    // ì•„ì´í…œ ë²„ë¦¬ê¸° (ë°”ë‹¥ì— ë“œë)
     void ThrowItem(ItemData data)
     {
         Instantiate(data.dropPrefab, dropPosition.position, Quaternion.Euler(Vector3.one * Random.value * 360));
     }
 
-    // ¾ÆÀÌÅÛ »ç¿ë ¹öÆ° Å¬¸¯ ½Ã
+    // ì•„ì´í…œ ì‚¬ìš© ë²„íŠ¼ í´ë¦­ ì‹œ
     public void OnUeseButton()
     {
         if (selectedItem.type == ItemType.Consumable)
@@ -207,22 +209,22 @@ public class UIIventory : MonoBehaviour
                         playerCondition.Heal(selectedItem.consumables[i].value);
                         break;
                     case ConsumableType.JumpBoost:
-                        playerController.AddJumpForce(selectedItem.consumables[i].value, 10f); // ¿¹: 10ÃÊ µ¿¾È Á¡ÇÁ·Â Áõ°¡.
+                        playerController.AddJumpForce(selectedItem.consumables[i].value, 10f); // ì˜ˆ: 10ì´ˆ ë™ì•ˆ ì í”„ë ¥ ì¦ê°€.
                         break;
                 }
             }
-            RemoveSelectedItem(); // »ç¿ë ÈÄ Á¦°Å
+            RemoveSelectedItem(); // ì‚¬ìš© í›„ ì œê±°
         }
     }
 
-    // ¾ÆÀÌÅÛ ¹ö¸®±â ¹öÆ° Å¬¸¯ ½Ã
+    // ì•„ì´í…œ ë²„ë¦¬ê¸° ë²„íŠ¼ í´ë¦­ ì‹œ
     public void OnDropButton()
     {
         ThrowItem(selectedItem);
         RemoveSelectedItem();
     }
 
-    // ¼±ÅÃµÈ ¾ÆÀÌÅÛ Á¦°Å
+    // ì„ íƒëœ ì•„ì´í…œ ì œê±°
     void RemoveSelectedItem()
     {
         slots[selectedItemIndex].quantity--;
@@ -235,4 +237,34 @@ public class UIIventory : MonoBehaviour
         }
         UpdataUI();
     }
+
+    public void OnEquipButton()
+    {
+        if (slots[curEquipIndex].equipped)
+        {
+            UnEquip(curEquipIndex);
+        }
+        slots[selectedItemIndex].equipped = true;
+        curEquipIndex = selectedItemIndex;
+        CharacterManager.Instance.Player.equip.EquipNew(selectedItem);
+        UpdataUI();
+
+        SelectItem(selectedItemIndex);
+    }
+
+    void UnEquip(int index)
+    {
+        slots[index].equipped = false;
+        CharacterManager.Instance.Player.equip.UnEquip();
+        UpdataUI();
+
+        if (selectedItemIndex == index)
+            SelectItem(selectedItemIndex);
+    }
+
+    public void OnUnEquipButton()
+    {
+        UnEquip(selectedItemIndex);
+    }
+
 }

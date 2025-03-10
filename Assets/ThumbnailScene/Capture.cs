@@ -113,6 +113,8 @@ public class Capture : MonoBehaviour
         switch (grade)
         {
             case Grade.None:
+                cam.backgroundColor = new Color(0, 0, 0, 0); // 카메라 배경색을 투명으로 설정
+                bg.color = new Color(0, 0, 0, 0); // 배경 이미지 색을 투명으로 설정
                 break;
             case Grade.Normal:
                 cam.backgroundColor = Color.white;

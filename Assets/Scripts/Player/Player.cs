@@ -5,17 +5,19 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public PlayerController controller;     // ÇÃ·¹ÀÌ¾î ÄÁÆ®·Ñ·¯
-    public PlayerCondition condition;       // ÇÃ·¹ÀÌ¾î »óÅÂ
-    public Transform dropPosition;          // ¶³±¼ À§Ä¡
-    //public Equipment equip;
+    public PlayerController controller;     // í”Œë ˆì´ì–´ ì»¨íŠ¸ë¡¤ëŸ¬
+    public PlayerCondition condition;       // í”Œë ˆì´ì–´ ìƒíƒœ
+    public Transform dropPosition;          // ë–¨êµ´ ìœ„ì¹˜
+    public Equipment equip;
 
     public ItemData itemData;
     public Action addItem;
+
     public void Awake()
     {
-        CharacterManager.Instance.Player = this; // ÇÃ·¹ÀÌ¾î Ä³¸¯ÅÍ¸¦ Ä³¸¯ÅÍ ¸Å´ÏÀú¿¡ µî·Ï
+        CharacterManager.Instance.Player = this; // í”Œë ˆì´ì–´ ìºë¦­í„°ë¥¼ ìºë¦­í„° ë§¤ë‹ˆì €ì— ë“±ë¡
         controller = GetComponent<PlayerController>();
         condition = GetComponent<PlayerCondition>();
+        equip = GetComponent<Equipment>();
     }
 }

@@ -1,27 +1,32 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-public class PlayerCondition : MonoBehaviour
-{
-    public UICondition uICondition; // UI¿¡¼­ »óÅÂ Á¤º¸¸¦ °ü¸®ÇÏ´Â °´Ã¼
 
-    // UICondition¿¡¼­ Ã¼·Â°ú ½ºÅÂ¹Ì³Ê »óÅÂ¸¦ °¡Á®¿È
+public interface IDamageable
+{
+    // ë°ë¯¸ì§€ë¥¼ ë°›ëŠ” í•¨ìˆ˜
+    void TakeDamage(float damage);
+}
+
+public class PlayerCondition : MonoBehaviour, IDamageable
+{
+    public UICondition uICondition; // UIì—ì„œ ìƒíƒœ ì •ë³´ë¥¼ ê´€ë¦¬í•˜ëŠ” ê°ì²´
+
+    // UIConditionì—ì„œ ì²´ë ¥ê³¼ ìŠ¤íƒœë¯¸ë„ˆ ìƒíƒœë¥¼ ê°€ì ¸ì˜´
     Condition health { get { return uICondition.health; } }
     Condition hunger { get { return uICondition.hunger; } }
     Condition stamina { get { return uICondition.Stamina; } }
 
-    public float noHungerHealthDecrease;  //  ¹è°íÇÄÀÌ ¾øÀ» ¶§ Ã¼·Â °¨¼Ò
-    public event Action OnTakeDamaged;  // µ¥¹ÌÁö¸¦ ¹Ş¾ÒÀ» ¶§ ¹ß»ıÇÏ´Â ÀÌº¥Æ®
+    public float noHungerHealthDecrease;  //  ë°°ê³ í””ì´ ì—†ì„ ë•Œ ì²´ë ¥ ê°ì†Œ
+    public event Action OnTakeDamaged;  // ë°ë¯¸ì§€ë¥¼ ë°›ì•˜ì„ ë•Œ ë°œìƒí•˜ëŠ” ì´ë²¤íŠ¸
 
     void Update()
     {
-        hunger.Subtract(hunger.passiverValue * Time.deltaTime);     // ½Ã°£¿¡ µû¸¥ Çã±â °¨¼Ò
-        stamina.Add(stamina.passiverValue * Time.deltaTime);    // ½ºÅÂ¹Ì³Ê°¡ ½Ã°£¿¡ µû¶ó È¸º¹
+        hunger.Subtract(hunger.passiverValue * Time.deltaTime);     // ì‹œê°„ì— ë”°ë¥¸ í—ˆê¸° ê°ì†Œ
+        stamina.Add(stamina.passiverValue * Time.deltaTime);    // ìŠ¤íƒœë¯¸ë„ˆê°€ ì‹œê°„ì— ë”°ë¼ íšŒë³µ
 
         if (hunger.curValue <= 0f)
         {
-            // ¹è°íÇÄÀÌ ¾øÀ» ¶§ Ã¼·ÂÀÌ °¨¼Ò
+            // ë°°ê³ í””ì´ ì—†ì„ ë•Œ ì²´ë ¥ì´ ê°ì†Œ
             health.Subtract(noHungerHealthDecrease * Time.deltaTime);
         }
         if (health.curValue < 0f)
@@ -33,13 +38,13 @@ public class PlayerCondition : MonoBehaviour
 
     public void Heal(float amount)
     {
-        // Ã¼·ÂÀ» È¸º¹
+        // ì²´ë ¥ì„ íšŒë³µ
         health.Add(amount);
     }
 
     private void Die()
     {
-        // ÇÃ·¹ÀÌ¾î »ç¸Á Ã³¸® (ÇöÀç´Â ·Î±× Ãâ·Â)
+        // í”Œë ˆì´ì–´ ì‚¬ë§ ì²˜ë¦¬ (í˜„ì¬ëŠ” ë¡œê·¸ ì¶œë ¥)
         Debug.Log($"Die");
     }
 
@@ -50,19 +55,19 @@ public class PlayerCondition : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        // µ¥¹ÌÁö¸¦ ¹ŞÀ¸¸é Ã¼·ÂÀ» °¨¼Ò
+        // ë°ë¯¸ì§€ë¥¼ ë°›ìœ¼ë©´ ì²´ë ¥ì„ ê°ì†Œ
         health.Subtract(damage);
-        // µ¥¹ÌÁö¸¦ ¹Ş¾Ò´Ù´Â ÀÌº¥Æ® ¹ß»ı
+        // ë°ë¯¸ì§€ë¥¼ ë°›ì•˜ë‹¤ëŠ” ì´ë²¤íŠ¸ ë°œìƒ
         OnTakeDamaged?.Invoke();
     }
     public bool UseStamina(float amount)
     {
-        // ½ºÅÂ¹Ì³Ê°¡ ºÎÁ·ÇÏ¸é »ç¿ë ºÒ°¡ Ã³¸®
+        // ìŠ¤íƒœë¯¸ë„ˆê°€ ë¶€ì¡±í•˜ë©´ ì‚¬ìš© ë¶ˆê°€ ì²˜ë¦¬
         if (stamina.curValue - amount < 0f)
         {
             return false;
         }
-        // ½ºÅÂ¹Ì³Ê °¨¼Ò
+        // ìŠ¤íƒœë¯¸ë„ˆ ê°ì†Œ
         stamina.Subtract(amount);
         return true;
     }
