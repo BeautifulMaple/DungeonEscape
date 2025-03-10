@@ -4,18 +4,19 @@ using Unity.Properties;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+
 public class Interaction : MonoBehaviour
 {
     public float checkRate = 0.05f;
     private float lastCheckTime;
     public float maxCheckDistance;
-    public LayerMask layerMask;     // Å½»öÇÒ ·¹ÀÌ¾î ¼³Á¤
+    public LayerMask layerMask;     // íƒìƒ‰í•  ë ˆì´ì–´ ì„¤ì •
 
-    // ÇöÀç °¨ÁöµÈ »óÈ£ÀÛ¿ë °¡´ÉÇÑ ¿ÀºêÁ§Æ®
+    // í˜„ì¬ ê°ì§€ëœ ìƒí˜¸ì‘ìš© ê°€ëŠ¥í•œ ì˜¤ë¸Œì íŠ¸
     public GameObject curInteractGameObject;
-    private IInteractable curInteractable; // °¨ÁöµÈ ¿ÀºêÁ§Æ®ÀÇ IInteractable ÀÎÅÍÆäÀÌ½º
+    private IInteractable curInteractable; // ê°ì§€ëœ ì˜¤ë¸Œì íŠ¸ì˜ IInteractable ì¸í„°í˜ì´ìŠ¤
 
-    public TextMeshProUGUI promptText; // »óÈ£ÀÛ¿ë ¾È³» ¹®±¸ UI
+    public TextMeshProUGUI promptText; // ìƒí˜¸ì‘ìš© ì•ˆë‚´ ë¬¸êµ¬ UI
     private Camera cam;
     // Start is called before the first frame update
     void Start()
@@ -31,13 +32,13 @@ public class Interaction : MonoBehaviour
             // 
             lastCheckTime = Time.time;
 
-            // È­¸é Áß¾Ó¿¡¼­ ·¡ÀÌÄ³½ºÆ® ½÷¼­ Å½»öÇÏ±â
+            // í™”ë©´ ì¤‘ì•™ì—ì„œ ë˜ì´ìºìŠ¤íŠ¸ ì´ì„œ íƒìƒ‰í•˜ê¸°
             Ray ray = cam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit, maxCheckDistance, layerMask))
             {
-                // »óÈ£ÀÛ¿ë ¿ÀºêÁ§Æ®¸¦ °¨ÁöÇßÀ» °æ¿ì ¾÷µ¥ÀÌÆ®
+                // ìƒí˜¸ì‘ìš© ì˜¤ë¸Œì íŠ¸ë¥¼ ê°ì§€í–ˆì„ ê²½ìš° ì—…ë°ì´íŠ¸
                 if (hit.collider.gameObject != curInteractGameObject)
                 {
                     curInteractGameObject = hit.collider.gameObject;
@@ -71,4 +72,11 @@ public class Interaction : MonoBehaviour
             promptText.gameObject.SetActive(false);
         }
     }
+    public interface IInteractable
+    {
+        string GetInteractPrompt();
+        void OnInteract();
+    }
 }
+
+
