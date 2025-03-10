@@ -17,7 +17,7 @@ public class PlayerCondition : MonoBehaviour, IDamageable
     Condition stamina { get { return uICondition.Stamina; } }
 
     public float noHungerHealthDecrease;  //  배고픔이 없을 때 체력 감소
-    public event Action OnTakeDamaged;  // 데미지를 받았을 때 발생하는 이벤트
+    public event Action onTakeDamaged;  // 데미지를 받았을 때 발생하는 이벤트
 
     void Update()
     {
@@ -58,7 +58,7 @@ public class PlayerCondition : MonoBehaviour, IDamageable
         // 데미지를 받으면 체력을 감소
         health.Subtract(damage);
         // 데미지를 받았다는 이벤트 발생
-        OnTakeDamaged?.Invoke();
+        onTakeDamaged?.Invoke();
     }
     public bool UseStamina(float amount)
     {

@@ -12,7 +12,6 @@ public class JumpZone : MonoBehaviour
     private int targetIndex = 0;
     private Rigidbody rb;
 
-
     private void Update()
     {
         MovePlatform();

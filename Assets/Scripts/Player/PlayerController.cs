@@ -40,7 +40,6 @@ public class PlayerController : MonoBehaviour
 
     private bool isWallClimbing = false; // 벽 타기 상태
     private bool isWallHanging = false;  // 매달리기 상태
-    private float wallHangTimer = 0f;    // 매달리기 타이머
 
     private void Awake()
     {
@@ -241,7 +240,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.W)) // 위로 타기
         {
-            transform.position += transform.up * moveSpeed * Time.deltaTime;
+            transform.position += transform.up * moveSpeed * Time.deltaTime;    // 
         }
         else if (Input.GetKey(KeyCode.S)) // 아래로 타기
         {
