@@ -13,6 +13,9 @@ public class PlayerController : MonoBehaviour
     public float jumpForce;             // 점프 파워
     public float staminaJump;           // 점프 시 소모되는 스태미나량
     public LayerMask groundLayerMask;   // 지면 판정에 사용할 레이어 마스크
+    public LayerMask wallLayerMask;     // 벽 판정에 사용할 레이어 마스크
+    public float wallClimbSpeed;        // 벽 타기 속도
+    public float wallHangTime;          // 매달리기 시간
 
     private Vector2 curMovementInput;   // 현재 입력된 이동 방향 (x, y)
     private Rigidbody rb;               // 플레이어의 Rigidbody
@@ -35,6 +38,10 @@ public class PlayerController : MonoBehaviour
     public bool canLook = true;         // 카메라 회전 가능 여부
     public Action Inventory;            // 인벤토리 열기 이벤트
 
+    private bool isWallClimbing = false; // 벽 타기 상태
+    private bool isWallHanging = false;  // 매달리기 상태
+    private float wallHangTimer = 0f;    // 매달리기 타이머
+
     private void Awake()
     {
         // 컴포넌트 초기화
@@ -49,11 +56,15 @@ public class PlayerController : MonoBehaviour
         // 게임 시작 시 마우스 커서 숨김
         Cursor.lockState = CursorLockMode.Locked;
 
+        // 초기 카메라 위치 설정: 기본은 1인칭 카메라 활성화
+        fppCamera.gameObject.SetActive(true);
+        tppCamera.gameObject.SetActive(false);
     }
 
     private void FixedUpdate()  // 물리 연산 업데이트 (프레임 고정 업데이트)
     {
         Move(); // 이동 로직 실행
+        CheckWall(); // 벽 타기 및 매달리기 상태 확인
     }
 
     private void Move()
@@ -193,6 +204,78 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(duration);
         jumpForce = originJumpForce;
+    }
+
+    // 벽 타기 및 매달리기 상태 확인
+    void CheckWall()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 0.5f))
+        {
+            if (hit.collider != null && ((1 << hit.collider.gameObject.layer) & wallLayerMask) != 0)
+            {
+                if (Input.GetKey(KeyCode.E)) // 벽 타기 키
+                {
+                    StartWallClimbing(hit);
+                }
+                else if (Input.GetKey(KeyCode.F)) // 벽 매달리기 키
+                {
+                    StartWallHanging(hit);
+                }
+            }
+        }
+        else
+        {
+            StopWallClimbing();
+            StopWallHanging();
+        }
+    }
+
+    // 벽 타기 시작
+    void StartWallClimbing(RaycastHit hit)
+    {
+        isWallClimbing = true;
+        rb.useGravity = false;
+        transform.position = hit.point; // 벽에 붙음
+        rb.velocity = Vector3.zero;
+
+        if (Input.GetKey(KeyCode.W)) // 위로 타기
+        {
+            transform.position += transform.up * moveSpeed * Time.deltaTime;
+        }
+        else if (Input.GetKey(KeyCode.S)) // 아래로 타기
+        {
+            transform.position -= transform.up * moveSpeed * Time.deltaTime;
+        }
+    }
+
+    // 벽 타기 중지
+    void StopWallClimbing()
+    {
+        if (isWallClimbing)
+        {
+            isWallClimbing = false;
+            rb.useGravity = true;
+        }
+    }
+
+    // 벽 매달리기 시작
+    void StartWallHanging(RaycastHit hit)
+    {
+        isWallHanging = true;
+        rb.useGravity = false;
+        rb.velocity = Vector3.zero;
+        transform.position = hit.point; // 벽에 붙음
+    }
+
+    // 벽 매달리기 중지
+    void StopWallHanging()
+    {
+        if (isWallHanging)
+        {
+            isWallHanging = false;
+            rb.useGravity = true;
+        }
     }
 
     // 인벤토리 호출 입력 처리 (인벤토리 UI 표시)
