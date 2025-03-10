@@ -38,8 +38,11 @@ public class PlayerController : MonoBehaviour
     public bool canLook = true;         // 카메라 회전 가능 여부
     public Action Inventory;            // 인벤토리 열기 이벤트
 
+
+    [HideInInspector]
     private bool isWallClimbing = false; // 벽 타기 상태
     private bool isWallHanging = false;  // 매달리기 상태
+
 
     private void Awake()
     {
