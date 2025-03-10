@@ -13,8 +13,10 @@ public class Player : MonoBehaviour
     public ItemData itemData;
     public Action addItem;
 
+    public Animator animator;
     public void Awake()
     {
+        animator = GetComponent<Animator>();
         CharacterManager.Instance.Player = this; // 플레이어 캐릭터를 캐릭터 매니저에 등록
         controller = GetComponent<PlayerController>();
         condition = GetComponent<PlayerCondition>();
