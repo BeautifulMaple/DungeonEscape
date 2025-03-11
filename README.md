@@ -75,14 +75,16 @@ https://github.com/user-attachments/assets/dfef910d-9d79-4b36-977c-bdcf9b1946c8
 
 ### 🚀 플랫폼 발사기  
 - 일정 시간이 지나면 캐릭터를 특정 방향으로 발사  
-- `ForceMode.Impulse`를 활용하여 자연스러운 물리 반응 적용  
+- `ForceMode.Impulse`를 활용하여 자연스러운 물리 반응 적용
+
 https://github.com/user-attachments/assets/37daefd5-0cea-46c8-9188-34bccb459363
 
 
 
 ### 🧠 발전된 AI  
 - `NavMesh` 기반 AI 경로 탐색 및 동적 장애물 회피  
-- 특정 장애물을 피하거나 다른 경로를 탐색하도록 구현  
+- 특정 장애물을 피하거나 다른 경로를 탐색하도록 구현
+
 https://github.com/user-attachments/assets/88595c1a-cb9f-4b30-b92d-214f3dc61cf8
 
 
