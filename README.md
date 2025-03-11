@@ -1,12 +1,16 @@
-# DungeonEscape
+# 🏰 DungeonEscape
  
-## 🏰 프로젝트 소개
+## 프로젝트 소개
 ### DungeonEscape는 던전을 탈출하는 3D 액션 게임입니다. 플레이어는 다양한 함정과 장애물을 피하고, 벽을 타거나 점프대를 활용하여 목표 지점에 도달해야 합니다.
 ![전체 영상 (1)](https://github.com/user-attachments/assets/c3aa8174-2c1f-4ec5-ad74-50c318e7436d)
 
-### 만든이     : 김태겸 
-### 제작기간   : 2025년 3월 4일 ~ 3월 11일 (7일)
-### Unity 버전 : 2022.3.17f1
+## 📌 프로젝트 정보  
+- **제작자**: 김태겸  
+- **제작 기간**: 2025년 3월 4일 ~ 3월 11일 (7일)  
+- **Unity 버전**: 2022.3.17f1  
+
+---
+
 
 # 🚀 주요 기능
 
@@ -83,12 +87,11 @@ https://github.com/user-attachments/assets/37daefd5-0cea-46c8-9188-34bccb459363
 
 - 일정 시간 후 캐릭터를 발사
 
-### 발전된 AI
-
+### 🧠 발전된 AI  
+- `NavMesh` 기반 AI 경로 탐색 및 동적 장애물 회피  
+- 특정 장애물을 피하거나 다른 경로를 탐색하도록 구현  
+- 📹 **[시연 영상 보기](https://github.com/user-attachments/assets/88595c1a-cb9f-4b30-b92d-214f3dc61cf8)**  
 
 https://github.com/user-attachments/assets/88595c1a-cb9f-4b30-b92d-214f3dc61cf8
-
-
-- NavMesh 기반 AI 경로 탐색 및 동적 장애물 회피
 
 
