@@ -12,12 +12,12 @@
 
 ### 기본 이동 및 점프
 
-WASD 이동 및 Space 점프 구현 (Input System, Rigidbody)
+WASD 이동 및 Space 점프 구현
 
 
 ### 체력바 UI
 
-플레이어 체력을 UI로 표시 (Canvas, Slider)
+플레이어 체력을 UI로 표시
 
 ### 동적 환경 조사
 
@@ -25,7 +25,7 @@ Raycast를 사용하여 상호작용 가능한 오브젝트의 정보를 표시
 
 ### 점프대
 
-특정 오브젝트를 밟으면 높이 튀어 오름 (ForceMode.Impulse)
+특정 오브젝트를 밟으면 높이 튀어 오름
 
 ### 아이템 데이터
 
@@ -38,8 +38,9 @@ Coroutine을 사용해 일정 시간 지속되는 효과 적용 (체력, 허기,
 
 
 ### 3인칭 시점
+![제목 없는 동영상 - Clipchamp로 제작](https://github.com/user-attachments/assets/bd80d927-5091-4592-9e7a-a9b0ee69ead8)
 
-3인칭 카메라 구현 (Cinemachine)
+3인칭 카메라 구현
 
 ### 움직이는 플랫폼
 
