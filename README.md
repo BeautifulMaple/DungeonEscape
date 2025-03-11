@@ -12,72 +12,81 @@
 
 ### 기본 이동 및 점프
 
-WASD 이동 및 Space 점프 구현
+- WASD 이동 및 Space 점프 구현
 
 
 ### 체력바 UI
 
-플레이어 체력을 UI로 표시
+- 플레이어 체력을 UI로 표시
 
 ### 동적 환경 조사
 
-Raycast를 사용하여 상호작용 가능한 오브젝트의 정보를 표시
+- Raycast를 사용하여 상호작용 가능한 오브젝트의 정보를 표시
 
 ### 점프대
 
-특정 오브젝트를 밟으면 높이 튀어 오름
+- 특정 오브젝트를 밟으면 높이 튀어 오름
 
 ### 아이템 데이터
 
-ScriptableObject를 사용해 아이템 데이터 관리
+- ScriptableObject를 사용해 아이템 데이터 관리
 
 
 ### 아이템 사용
 
-Coroutine을 사용해 일정 시간 지속되는 효과 적용 (체력, 허기, 스테미나 회복)
+- Coroutine을 사용해 일정 시간 지속되는 효과 적용 (체력, 허기, 스테미나 회복)
 
 
 ### 3인칭 시점
 ![제목 없는 동영상 - Clipchamp로 제작](https://github.com/user-attachments/assets/bd80d927-5091-4592-9e7a-a9b0ee69ead8)
 
-3인칭 카메라 구현
+- 3인칭 카메라 구현
 
 ### 움직이는 플랫폼
 
-시간에 따라 이동하는 플랫폼 구현
+https://github.com/user-attachments/assets/310c2f14-b8ab-46ba-b92c-20b9a5b90f3b
+
+- 시간에 따라 이동하는 플랫폼 구현
 
 
 ### 벽 타기 및 매달리기
 
-Raycast와 ForceMode를 활용한 벽 매달리기 및 등반
+- Raycast와 ForceMode를 활용한 벽 매달리기 및 등반
 
 
 ### 다양한 아이템 구현
 
-점프 폭 증가
+- 점프 폭 증가
 
 
 ### 장비 장착 시스템
+![image](https://github.com/user-attachments/assets/e65c17de-1a0c-4081-ac06-5fb5a895f8f8)
 
-캐릭터 능력 강화 장비 시스템 구현
-
+- 장비 시스템 구현 (철제 검, 도끼)
 
 ### 레이저 트랩
 
-Raycast를 활용하여 플레이어 감지 및 트랩 발동
+- Raycast를 활용하여 플레이어 감지 및 트랩 발동
 
 ### 상호작용 오브젝트 UI
 
-문 'E키를 눌러 열기' 등의 안내 표시
+- 문 'E키를 눌러 열기' 등의 안내 표시
 
 
 ### 플랫폼 발사기
 
-특정 키를 누르거나 일정 시간 후 캐릭터를 발사
 
+https://github.com/user-attachments/assets/37daefd5-0cea-46c8-9188-34bccb459363
+
+
+- 일정 시간 후 캐릭터를 발사
 
 ### 발전된 AI
 
-NavMesh 기반 AI 경로 탐색 및 동적 장애물 회피
+
+https://github.com/user-attachments/assets/88595c1a-cb9f-4b30-b92d-214f3dc61cf8
+
+
+- NavMesh 기반 AI 경로 탐색 및 동적 장애물 회피
 
 
