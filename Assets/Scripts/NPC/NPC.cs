@@ -75,19 +75,19 @@ public class NPC : MonoBehaviour, IDamageable
         }
 
         // AI 경로 디버그 로그 출력
-        if (agent.hasPath)
-        {
-            Debug.Log("AI 경로:");
-            foreach (var corner in agent.path.corners)
-            {
-                Debug.Log(corner);
-                NavMeshHit hit;
-                if (NavMesh.SamplePosition(corner, out hit, 1.0f, NavMesh.AllAreas))
-                {
-                    Debug.Log("Area: " + NavMesh.GetAreaFromName(hit.mask.ToString()));
-                }
-            }
-        }
+        //if (agent.hasPath)
+        //{
+        //    Debug.Log("AI 경로:");
+        //    foreach (var corner in agent.path.corners)
+        //    {
+        //        Debug.Log(corner);
+        //        NavMeshHit hit;
+        //        if (NavMesh.SamplePosition(corner, out hit, 1.0f, NavMesh.AllAreas))
+        //        {
+        //            Debug.Log("Area: " + NavMesh.GetAreaFromName(hit.mask.ToString()));
+        //        }
+        //    }
+        //}
     }
 
     /// <summary>

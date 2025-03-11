@@ -15,7 +15,7 @@ MonoBehaviour:
   disPlayName: "\uC0AC\uACFC\uB098\uBB34"
   description: "\uB9DB\uC788\uB294 \uC0AC\uACFC\uB97C \uC5BB\uC744 \uC218 \uC788\uC744
     \uAC83 \uAC19\uB2E4"
-  type: 0
+  type: 3
   icon: {fileID: 0}
   dropPrefab: {fileID: 0}
   canStack: 0
