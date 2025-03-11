@@ -238,17 +238,23 @@ public class PlayerController : MonoBehaviour
     {
         isWallClimbing = true;
         rb.useGravity = false;
-        transform.position = hit.point; // 벽에 붙음
-        rb.velocity = Vector3.zero;
+        rb.velocity = Vector3.zero; // 기존 속도 초기화
+
+        // 벽과의 위치 고정 (완전히 붙도록)
+        Vector3 wallAttachPoint = hit.point + hit.normal * 0.1f;
+        transform.position = wallAttachPoint;
 
         if (Input.GetKey(KeyCode.W)) // 위로 타기
         {
-            transform.position += transform.up * moveSpeed * Time.deltaTime;    // 
+            transform.position += transform.up * moveSpeed * Time.deltaTime;
         }
         else if (Input.GetKey(KeyCode.S)) // 아래로 타기
         {
             transform.position -= transform.up * moveSpeed * Time.deltaTime;
         }
+
+        // 🔹 ForceMode 사용하여 벽 타기 적용
+        rb.AddForce(transform.position, ForceMode.Acceleration);
     }
 
     // 벽 타기 중지
@@ -266,8 +272,11 @@ public class PlayerController : MonoBehaviour
     {
         isWallHanging = true;
         rb.useGravity = false;
-        rb.velocity = Vector3.zero;
-        transform.position = hit.point; // 벽에 붙음
+        rb.velocity = Vector3.zero; // 속도 초기화
+
+        // 벽에 붙도록 힘을 가함
+        Vector3 hangForce = hit.normal * -5f; // 벽 안쪽으로 당기는 힘
+        rb.AddForce(hangForce, ForceMode.Force);
     }
 
     // 벽 매달리기 중지

@@ -12202,7 +12202,7 @@ MonoBehaviour:
   wallLayerMask:
     serializedVersion: 2
     m_Bits: 1079
-  wallClimbSpeed: 2
+  wallClimbSpeed: 10
   wallHangTime: 2
   curMovementInput: {x: 0, y: 0}
   cameraContainer: {fileID: 1155607283}
