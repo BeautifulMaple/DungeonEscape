@@ -87,4 +87,16 @@ https://github.com/user-attachments/assets/37daefd5-0cea-46c8-9188-34bccb459363
 
 https://github.com/user-attachments/assets/88595c1a-cb9f-4b30-b92d-214f3dc61cf8
 
+---
 
+## 🔧 설치 및 실행 방법  
+
+1️⃣ **게임 다운로드**  
+   - [GitHub Releases](https://github.com/BeautifulMaple/DungeonEscape/releases) 페이지에서 최신 버전을 다운로드하세요.  
+   - `DungeonEscape_vX.X.X.zip` 파일을 받습니다.  
+
+2️⃣ **압축 해제**  
+   - 다운로드한 ZIP 파일을 원하는 폴더에 압축 해제합니다.  
+
+3️⃣ **게임 실행**  
+   - `DungeonEscape.exe` 파일을 실행하면 게임이 시작됩니다. 
