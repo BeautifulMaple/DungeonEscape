@@ -52,6 +52,10 @@ public class PlayerCondition : MonoBehaviour, IDamageable
     {
         hunger.Add(amount);
     }
+    public void HealStamina(float amount)
+    {
+        stamina.Add(amount);
+    }
 
     public void TakeDamage(float damage)
     {

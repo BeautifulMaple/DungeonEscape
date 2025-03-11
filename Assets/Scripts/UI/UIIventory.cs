@@ -208,6 +208,9 @@ public class UIIventory : MonoBehaviour
                     case ConsumableType.Health:
                         playerCondition.Heal(selectedItem.consumables[i].value);
                         break;
+                    case ConsumableType.Stamina:
+                        playerCondition.HealStamina(selectedItem.consumables[i].value);
+                        break;
                     case ConsumableType.JumpBoost:
                         playerController.AddJumpForce(selectedItem.consumables[i].value, 10f); // 예: 10초 동안 점프력 증가.
                         break;

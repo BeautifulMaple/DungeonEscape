@@ -12,6 +12,7 @@ public enum ConsumableType
 {
     Health,
     Hunger,
+    Stamina,
     JumpBoost,  // 점프력 증가
 }
 [System.Serializable]
