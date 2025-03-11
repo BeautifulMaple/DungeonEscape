@@ -11938,6 +11938,7 @@ GameObject:
   - component: {fileID: 3238198232896635553}
   - component: {fileID: 3238198232896635556}
   - component: {fileID: 3238198232896635557}
+  - component: {fileID: 3238198232896635558}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -12251,6 +12252,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curEquip: {fileID: 0}
   equipParent: {fileID: 97103520}
+--- !u!114 &3238198232896635558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3238198232896635549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce8581667e12ac6448d02ac4cdf6af40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3244026227552074349
 GameObject:
   m_ObjectHideFlags: 0
