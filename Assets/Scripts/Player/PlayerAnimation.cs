@@ -16,8 +16,23 @@ public class PlayerAnimation : MonoBehaviour
     }
 
     // Update is called once per frame
-    //void Update()
-    //{
-    //    UpdateAnimation();
-    //}
+    void Update()
+    {
+        UpdateAnimation();
+    }
+
+    // 애니메이션 상태를 업데이트하는 함수
+    private void UpdateAnimation()
+    {
+        if (playerController != null)
+        {
+            // 이동 중인지 확인하여 IsRun 파라미터 설정
+            bool isRunning = playerController.curMovementInput != Vector2.zero;
+            animator.SetBool(IsRun, isRunning);
+
+            // 점프 중인지 확인하여 IsJump 파라미터 설정
+            bool isJumping = !playerController.IsGround();
+            animator.SetBool(IsJump, isJumping);
+        }
+    }
 }

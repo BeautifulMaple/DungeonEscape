@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     public float wallClimbSpeed;        // 벽 타기 속도
     public float wallHangTime;          // 매달리기 시간
 
-    private Vector2 curMovementInput;   // 현재 입력된 이동 방향 (x, y)
+    public Vector2 curMovementInput;   // 현재 입력된 이동 방향 (x, y)
     private Rigidbody rb;               // 플레이어의 Rigidbody
     private float originMoveSpeed;      // 초기 이동 속도 (복구용)
     private float originJumpForce;      // 초기 점프력 (복구용)
@@ -172,7 +172,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // 지면 판정을 위한 Raycast 로직
-    bool IsGround()
+    public bool IsGround()
     {
         // 4방향 (전,후,좌,우)에서 아래 방향으로 Ray를 쏴서 지면 판정
         Ray[] ray = new Ray[4]

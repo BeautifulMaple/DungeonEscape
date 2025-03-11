@@ -220,6 +220,12 @@ public class UIIventory : MonoBehaviour
     // 아이템 버리기 버튼 클릭 시
     public void OnDropButton()
     {
+        if (slots[selectedItemIndex].equipped)
+        {
+            Debug.Log("착용 중인 아이템은 버릴 수 없습니다.");
+            return;
+        }
+
         ThrowItem(selectedItem);
         RemoveSelectedItem();
     }
@@ -266,5 +272,4 @@ public class UIIventory : MonoBehaviour
     {
         UnEquip(selectedItemIndex);
     }
-
 }
