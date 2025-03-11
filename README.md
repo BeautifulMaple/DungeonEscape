@@ -51,12 +51,16 @@ https://github.com/user-attachments/assets/310c2f14-b8ab-46ba-b92c-20b9a5b90f3b
 
 ### 벽 타기 및 매달리기
 
+
+https://github.com/user-attachments/assets/dfef910d-9d79-4b36-977c-bdcf9b1946c8
+
+
 - Raycast와 ForceMode를 활용한 벽 매달리기 및 등반
 
 
 ### 다양한 아이템 구현
 
-- 점프 폭 증가
+- 점프력 증가
 
 
 ### 장비 장착 시스템
