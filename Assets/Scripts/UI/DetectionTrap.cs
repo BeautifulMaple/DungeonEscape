@@ -1,5 +1,4 @@
-using System;
-using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class DetectionTrap : MonoBehaviour
@@ -8,6 +7,8 @@ public class DetectionTrap : MonoBehaviour
     public LayerMask warningLayer; // 위험 레이어
     public GameObject warningMessage; // 경고 메시지 오브젝트
     public Transform trapTransform; // 카메라 컨테이너
+    public TrapDescription trapDescription; // Scriptable Object 참조
+    public TextMeshProUGUI descriptionText; // 설명을 표시할 UI 텍스트
 
     private void Update()
     {
@@ -53,6 +54,11 @@ public class DetectionTrap : MonoBehaviour
         {
             warningMessage.SetActive(true);
         }
+
+        if (descriptionText != null && trapDescription != null)
+        {
+            descriptionText.text = trapDescription.description; // Scriptable Object에서 설명 텍스트를 가져와서 UI에 표시
+        }
     }
 
     // 경고 메시지 숨김 메서드
@@ -61,6 +67,11 @@ public class DetectionTrap : MonoBehaviour
         if (warningMessage != null)
         {
             warningMessage.SetActive(false);
+        }
+
+        if (descriptionText != null)
+        {
+            descriptionText.text = string.Empty; // 설명 텍스트를 비움
         }
     }
 }

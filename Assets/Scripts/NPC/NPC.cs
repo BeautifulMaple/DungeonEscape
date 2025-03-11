@@ -15,13 +15,13 @@ public class NPC : MonoBehaviour, IDamageable
 {
     [Header("Stats")]
     public float health;            // 체력
-    public float walkSpeed;       // 걷기 속도
-    public float runSpeed;        // 뛰기 속도
-    public ItemData[] dropOnDeath; // 사망 시 드롭할 아이템 목록
+    public float walkSpeed;         // 걷기 속도
+    public float runSpeed;          // 뛰기 속도
+    public ItemData[] dropOnDeath;  // 사망 시 드롭할 아이템 목록
 
     [Header("AI")]
     private NavMeshAgent agent;    // 네비게이션 에이전트 (이동 제어)
-    private NavMeshPath path;
+    private NavMeshPath path;      // 경로 계산을 위한 NavMeshPath
     public float detectDistance;   // 플레이어 감지 거리
     private AIState aiState;       // 현재 AI 상태
 
@@ -33,11 +33,11 @@ public class NPC : MonoBehaviour, IDamageable
 
     [Header("Combat")]
     public float damage;             // 공격력
-    public float attackRate;        // 공격 속도 (공격 간격)
-    private float lastAttackTime;   // 마지막 공격 시간
-    public float attackDistance;    // 공격 거리
+    public float attackRate;         // 공격 속도 (공격 간격)
+    private float lastAttackTime;    // 마지막 공격 시간
+    public float attackDistance;     // 공격 거리
 
-    private float playerDistance;   // 플레이어와의 거리
+    private float playerDistance;    // 플레이어와의 거리
     public float fieldOfView = 120f; // NPC의 시야각
 
     private Animator animator;                // 애니메이터
@@ -45,20 +45,14 @@ public class NPC : MonoBehaviour, IDamageable
 
     private void Awake()
     {
-        agent = GetComponent<NavMeshAgent>();        // 네비게이션 에이전트 가져오기
-        animator = GetComponent<Animator>();        // 애니메이터 가져오기
+        agent = GetComponent<NavMeshAgent>();           // 네비게이션 에이전트 가져오기
+        animator = GetComponent<Animator>();            // 애니메이터 가져오기
         meshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>(); // 캐릭터의 메쉬 렌더러 가져오기
     }
 
     void Start()
     {
         SetState(AIState.Wandering); // 시작할 때 배회 상태로 설정
-
-        int highCostArea = NavMesh.GetAreaFromName("HighCostArea");
-        if (highCostArea >= 0)
-        {
-            agent.areaMask &= ~(1 << highCostArea); // HighCostArea 제외
-        }
     }
 
     void Update()
@@ -79,9 +73,27 @@ public class NPC : MonoBehaviour, IDamageable
                 AttackingUpdate(); // 전투 로직 실행
                 break;
         }
+
+        // AI 경로 디버그 로그 출력
+        if (agent.hasPath)
+        {
+            Debug.Log("AI 경로:");
+            foreach (var corner in agent.path.corners)
+            {
+                Debug.Log(corner);
+                NavMeshHit hit;
+                if (NavMesh.SamplePosition(corner, out hit, 1.0f, NavMesh.AllAreas))
+                {
+                    Debug.Log("Area: " + NavMesh.GetAreaFromName(hit.mask.ToString()));
+                }
+            }
+        }
     }
 
-    // AI 상태 변경 함수
+    /// <summary>
+    /// AI 상태 변경 함수
+    /// </summary>
+    /// <param name="state">변경할 AI 상태</param>
     public void SetState(AIState state)
     {
         aiState = state;
@@ -119,7 +131,6 @@ public class NPC : MonoBehaviour, IDamageable
             return;
         }
 
-
         // 배회 중이며 목표 지점에 도착했을 경우 일정 시간 후 새로운 위치로 이동
         if (aiState == AIState.Wandering && agent.remainingDistance < 0.1f)
         {
@@ -143,9 +154,9 @@ public class NPC : MonoBehaviour, IDamageable
 
         Vector3 targetLocation = GetWanderLocation();
 
-        if(!NavMesh.SamplePosition(targetLocation, out NavMeshHit hit, maxWanderDistance, NavMesh.AllAreas)) return;
+        if (!NavMesh.SamplePosition(targetLocation, out NavMeshHit hit, maxWanderDistance, NavMesh.AllAreas)) return;
 
-        agent.areaMask = NavMesh.GetAreaFromName("Walkable") > 0 ? ~NavMesh.GetAreaFromName("Walkable") : NavMesh.AllAreas;
+        agent.areaMask &= ~(1 << NavMesh.GetAreaFromName("HighCostArea"));
         agent.SetDestination(hit.position);
     }
 
@@ -154,16 +165,11 @@ public class NPC : MonoBehaviour, IDamageable
     {
         NavMeshHit hit;
         int i = 0;
-        ///while (Vector3.Distance(transform.position, hit.position) < detectDistance)
-        ///{
-        ///    NavMesh.SamplePosition(transform.position + (Random.onUnitSphere * Random.Range(minWanderDistance, maxWanderDistance)), out hit, maxWanderDistance, NavMesh.AllAreas);
-        ///    i++;
-        ///   if (i == 30) break;
-        ///}
         do
         {
             // 현재 위치에서 랜덤한 방향으로 이동할 위치 설정
-            NavMesh.SamplePosition(transform.position + (Random.onUnitSphere * Random.Range(minWanderDistance, maxWanderDistance)), out hit, maxWanderDistance, NavMesh.AllAreas);
+            NavMesh.SamplePosition(transform.position + (Random.onUnitSphere * Random.Range(minWanderDistance, maxWanderDistance)), 
+                out hit, maxWanderDistance, NavMesh.AllAreas);
             i++;
         }
         while (Vector3.Distance(transform.position, hit.position) < detectDistance && i < 30);
@@ -190,7 +196,10 @@ public class NPC : MonoBehaviour, IDamageable
         else
         {
             path = new NavMeshPath();
+            // HighCostArea를 제외한 영역으로 경로 계산
+            agent.areaMask = NavMesh.GetAreaFromName("HighCostArea");
             agent.CalculatePath(CharacterManager.Instance.Player.transform.position, path);
+
             // HighCostArea로 인해 경로가 완전하지 않다면 배회 상태로 전환
             if (path.status == NavMeshPathStatus.PathPartial)
             {
