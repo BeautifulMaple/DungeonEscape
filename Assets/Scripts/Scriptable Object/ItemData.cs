@@ -5,12 +5,14 @@ public enum ItemType
     Resouce,        // 자원
     Equipable,      // 장비
     Consumable,     // 소비
+    interactable,   // 상호작용
 }
 
 public enum ConsumableType
 {
     Health,
     Hunger,
+    Stamina,
     JumpBoost,  // 점프력 증가
 }
 [System.Serializable]

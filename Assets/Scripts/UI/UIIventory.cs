@@ -208,6 +208,9 @@ public class UIIventory : MonoBehaviour
                     case ConsumableType.Health:
                         playerCondition.Heal(selectedItem.consumables[i].value);
                         break;
+                    case ConsumableType.Stamina:
+                        playerCondition.HealStamina(selectedItem.consumables[i].value);
+                        break;
                     case ConsumableType.JumpBoost:
                         playerController.AddJumpForce(selectedItem.consumables[i].value, 10f); // 예: 10초 동안 점프력 증가.
                         break;
@@ -220,6 +223,12 @@ public class UIIventory : MonoBehaviour
     // 아이템 버리기 버튼 클릭 시
     public void OnDropButton()
     {
+        if (slots[selectedItemIndex].equipped)
+        {
+            Debug.Log("착용 중인 아이템은 버릴 수 없습니다.");
+            return;
+        }
+
         ThrowItem(selectedItem);
         RemoveSelectedItem();
     }
@@ -266,5 +275,4 @@ public class UIIventory : MonoBehaviour
     {
         UnEquip(selectedItemIndex);
     }
-
 }

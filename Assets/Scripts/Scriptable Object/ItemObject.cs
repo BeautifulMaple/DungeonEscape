@@ -1,28 +1,35 @@
 using UnityEngine;
 
-// ÀÎÅÍ·¢¼ÇÀ» À§ÇÑ ÀÎÅÍÆäÀÌ½º
+// ì¸í„°ë™ì…˜ì„ ìœ„í•œ ì¸í„°í˜ì´ìŠ¤
 public interface IInteractable
 {
-    public string GetInteractPrompt();  // UI¿¡ Ç¥½ÃÇÒ Á¤º¸
-    public void OnInteract();   // ÀÎÅÍ·¢¼Ç È£Ãâ
+    public string GetInteractPrompt();  // UIì— í‘œì‹œí•  ì •ë³´
+    public void OnInteract();   // ì¸í„°ë™ì…˜ í˜¸ì¶œ
 }
 public class ItemObject : MonoBehaviour, IInteractable
 {
 
     public ItemData _itemdata;
-    // ¾ÆÀÌÅÛ°ú ¼³¸íÀ» ¹İÈ¯
+    // ì•„ì´í…œê³¼ ì„¤ëª…ì„ ë°˜í™˜
     public string GetInteractPrompt()
     {
         string str = ($"{_itemdata.disPlayName} \n {_itemdata.description}");
         return str;
     }
-    // ¾ÆÀÌÅÛÀ» È¹µæÇÏ°í »èÁ¦
+    // ì•„ì´í…œì„ íšë“í•˜ê³  ì‚­ì œ
     public void OnInteract()
     {
-        // Player ½ºÅ©¸³Æ® ¸ÕÀú ¼öÁ¤
-        // Player ½ºÅ©¸³Æ®¿¡ »óÈ£ÀÛ¿ë ¾ÆÀÌÅÛ data ³Ñ±â±â
-        CharacterManager.Instance.Player.itemData = _itemdata;
-        CharacterManager.Instance.Player.addItem?.Invoke();
-        Destroy(gameObject);
+        if (!(_itemdata.type == ItemType.interactable))
+        {
+            // Player ìŠ¤í¬ë¦½íŠ¸ ë¨¼ì € ìˆ˜ì •
+            // Player ìŠ¤í¬ë¦½íŠ¸ì— ìƒí˜¸ì‘ìš© ì•„ì´í…œ data ë„˜ê¸°ê¸°
+            CharacterManager.Instance.Player.itemData = _itemdata;
+            CharacterManager.Instance.Player.addItem?.Invoke();
+            Destroy(gameObject);
+        }
+        else
+        {
+            // ìƒí˜¸ì‘ìš© í•˜ê¸°
+        }
     }
 }
